@@ -1,0 +1,32 @@
+stages:
+  - test
+  - build
+
+test_01:
+  stage: test
+  image: golang:1.17
+  script: 
+    - go test .
+  tags:
+    - plekhas
+
+build_01:
+  stage: build
+  image: docker:latest
+  only:
+    - main
+  script:
+    - docker build .
+  tags:
+    - plekhas
+
+build:
+  stage: build
+  image: docker:latest
+  when: manual
+  except:
+    - main
+  script:
+    - docker build .
+  tags:
+    - plekhas
